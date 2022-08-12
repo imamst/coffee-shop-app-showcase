@@ -75,7 +75,7 @@ https://www.postman.com/simam29/workspace/coffee-shop-api
 ## Author Contact
 
 - Email - [imamset.business@gmail.com](mailto:imamset.business@gmail.com)
-- Whatsapp - [Chat me](https://wa.me/62242510043)
+- Whatsapp - [Chat me](https://wa.me/6282242510043)
 <!-- - Website - [Imam Setiawan](https://imamsetiawan.id) -->
 
 ## Credits
