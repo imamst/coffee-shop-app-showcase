@@ -36,32 +36,32 @@ https://www.postman.com/simam29/workspace/coffee-shop-api
 
 ## Screenshots
 
-![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/shop_page.png?raw=true)
 <p style="text-align: center;">Gambar 1. Halaman Home</p>
+![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/shop_page.png?raw=true)
 
-![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/product_page.png?raw=true)
 <p style="text-align: center;">Gambar 2. Halaman Detail Produk</p>
+![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/product_page.png?raw=true)
 
-![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/cart_page.png?raw=true)
 <p style="text-align: center;">Gambar 3. Halaman Keranjang Produk</p>
+![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/cart_page.png?raw=true)
 
-![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/checkout_page.png?raw=true)
 <p style="text-align: center;">Gambar 4. Halaman Informasi Alamat Checkout/Pengiriman</p>
+![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/checkout_page.png?raw=true)
 
-![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/shipping_page.png?raw=true)
 <p style="text-align: center;">Gambar 5. Halaman Metode Pengiriman</p>
+![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/shipping_page.png?raw=true)
 
-![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/payment_page.png?raw=true)
 <p style="text-align: center;">Gambar 6. Halaman Metode Pembayaran</p>
+![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/payment_page.png?raw=true)
 
-![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/payment_instruction_page.png?raw=true)
 <p style="text-align: center;">Gambar 7. Halaman Panduan Pembayaran</p>
+![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/payment_instruction_page.png?raw=true)
 
-![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/order_history_page.png?raw=true)
 <p style="text-align: center;">Gambar 8. Halaman RIwayat Pesanan Pengguna</p>
+![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/order_history_page.png?raw=true)
 
-![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/order_detail_page.png?raw=true)
 <p style="text-align: center;">Gambar 9. Halaman Detail Pesanan</p>
+![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/order_detail_page.png?raw=true)
 
 ## Author Contact
 
