@@ -6,6 +6,7 @@ Tech/concept that I use for development:
 * Laravel 9 for REST API
 * JWT Auth
 * Vue 3 Composition API & Pinia
+* Tailwind CSS
 * MySQL
 * Table relationship: one-to-one, one-to-many, polymorphic
 * Shipping cost checking using RajaOngkir API
