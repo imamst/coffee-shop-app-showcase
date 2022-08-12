@@ -68,3 +68,6 @@ https://www.postman.com/simam29/workspace/coffee-shop-api
 - Email - [imamset.business@gmail.com](mailto:imamset.business@gmail.com)
 - Whatsapp - [Chat me](https://wa.me/62242510043)
 <!-- - Website - [Imam Setiawan](https://imamsetiawan.id) -->
+
+## Credits
+UI is copied from [Coffee Bean Store](https://store.coffeebean.com/)
