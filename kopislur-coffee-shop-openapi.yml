@@ -1,0 +1,1153 @@
+openapi: '3.0.2'
+info:
+  title: Coffee Shop OpenAPI
+  version: '1.0'
+  description: OpenAPI for RESTful Coffee Shop API
+  contact:
+    name: Imam Setiawan
+    url: http://imamsetiawan.id
+    email: s.imam29@gmail.com
+  license:
+    name: APACHE 2.0
+    url: https://www.apache.org/licences/LICENSE-2.0
+servers:
+  - url: https://{environment}.kopislur.imamsetiawan.id/api/v1
+    description: Coffee Shop RESTful API Server
+    variables:
+      environment:
+        default: dev
+        description: Server Environment
+        enum:
+          - dev
+          - qa
+          - prod
+externalDocs:
+  url: http://imamsetiawan.id
+  description: Website Imam Setiawan
+
+paths:
+  /roasts:
+    get:
+      tags:
+        - Roast Level
+      summary: Get roast level data
+      description: Get roast level data
+      responses:
+        '200':
+          description: Roast level collections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicCollections'
+  /types:
+    get:
+      tags:
+        - Coffee type
+      summary: Get type of coffee data
+      description: Get type of coffee data
+      responses:
+        '200':
+          description: Coffee types collections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicCollections'
+  /products:
+    get:
+      tags:
+        - Product
+      summary: Get all coffee products
+      description: Get all coffee products in order of latest creation and divided by 20 items per page by default
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Get coffee list by pagination of 20 items
+          schema:
+            type: string
+            default: 1
+          example:
+            secondPage:
+              description: Get second page item of coffee product
+              value: 2
+        - name: sort
+          in: query
+          required: false
+          description: |
+            Sort product by specific attribute
+            + : ascending
+            - : descending
+            Can include multiple attribute separated by comma
+          schema:
+            type: string
+            default: +name
+            enum:
+              - +price
+              - -price
+              - +name
+              - -name
+          examples:
+            sortByPriceAsc:
+              description: Sort coffees by its price, from low to high
+              value: +price
+            sortByNameDesc:
+              description: Sort coffees by its name
+              value: -name
+            sortByPriceDescAndNameAsc:
+              description: Sort coffees by its price, high to low & by its name
+              value: -price,+name
+        - name: search
+          in: query
+          required: false
+          description: Search product by name
+          schema:
+            type: string
+          examples:
+            arabicaCoffee:
+              description: Search coffees with name include phrase 'arabica coffee'
+              value: arabica coffee
+            robustaCoffee:
+              description: Search coffees with name include phrase 'robusta coffee'
+              value: robusta coffee
+        - name: filter
+          in: query
+          required: false
+          description: Filter product by roast level and/or type (separated with plus sign "+")
+          schema:
+            type: string
+          examples:
+            filterRoastDark:
+              description: Get coffees with dark roast level
+              value: roast_dark
+            filterRoastLightAndTypeArabica:
+              description: Get coffees with light roast level and type of arabica
+              value: roast_light+type_arabica
+      responses:
+        '200':
+          description: Coffee product collections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int32
+                      nullable: false
+                      minimum: 1
+                    name:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    slug:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    price:
+                      type: integer
+                      format: int32
+                      nullable: false
+                      minimum: 1
+                    aftertaste:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    featured_image_url:
+                      type: string
+                      nullable: true
+              examples:
+                succes:
+                  description: Example success of get coffee list
+                  value:
+                    - id: 1
+                      name: Bali Kintamani Coffee
+                      price: 89000
+                      aftertaste: cherry, fruity
+                    - id: 2
+                      name: Lampung Arabica Coffee
+                      price: 57000
+                      aftertaste: banana
+                    - id: 3
+                      name: Toraja Robusta Light Coffee
+                      price: 64000
+                      aftertaste: choco, cacao
+  /products/{product_id}/:
+    get:
+      tags:
+        - Product
+      summary: Get coffee product information
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Get coffee information by id
+          schema:
+            type: string
+            nullable: false
+            minLength: 1
+      responses:
+        '200':
+          description: Coffee object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int32
+                    nullable: false
+                    minimum: 1
+                  name:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  slug:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  aftertaste:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  description:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  roast:
+                    type: object
+                    nullable: false
+                    properties:
+                      id:
+                        type: integer
+                        format: int32
+                        nullable: false
+                        minimum: 1
+                      name:
+                        type: string
+                        nullable: false
+                        minLength: 1
+                      slug:
+                        type: string
+                        nullable: false
+                        minLength: 1
+                  type:
+                    type: object
+                    nullable: false
+                    properties:
+                      id:
+                        type: integer
+                        format: int32
+                        nullable: false
+                        minimum: 1
+                      name:
+                        type: string
+                        nullable: false
+                        minLength: 1
+                      slug:
+                        type: string
+                        nullable: false
+                        minLength: 1
+                  product_variants:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - weight
+                        - price
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                          nullable: false
+                          minimum: 1
+                        product_id:
+                          type: integer
+                          format: int32
+                          nullable: false
+                          minimum: 1
+                        weight:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        price:
+                          type: integer
+                          format: int32
+                          nullable: false
+                          minimum: 1
+                  medias:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - name
+                        - path
+                        - type
+                        - is_featured
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          minimum: 1
+                        path:
+                          type: string
+                          nullable: false
+                          minimum: 1
+                        type:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        is_featured:
+                          type: boolean
+                          nullable: false
+                          default: 0
+        '404':
+          $ref: '#/components/responses/NotFoundResponse'
+  /cart:
+    get:
+      tags:
+        - Cart
+      summary: Get all cart items
+      description: Get all cart items
+      parameters:
+        - $ref: '#/components/parameters/CartIdCookie'
+      responses:
+        '200':
+          description: Cart item collections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  minItems: 1
+                  required:
+                  - id
+                  - product_id
+                  - product_name
+                  - grind_size
+                  - weight
+                  - quantity
+                  - price
+                  properties:
+                    id:
+                      type: integer
+                      format: int32
+                      nullable: false
+                      minimum: 1
+                    product_id:
+                      type: integer
+                      format: int32
+                      nullable: false
+                      minimum: 1
+                    product_name:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    grind_size:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    weight:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    quantity:
+                      type: integer
+                      format: int32
+                      nullable: false
+                      minimum: 1
+                    price:
+                      type: integer
+                      format: int32
+                      nullable: false
+                      minimum: 1
+  /cart/cart-items:
+    post:
+      tags:
+        - Cart
+      summary: Add item to cart
+      description: Add item to cart
+      parameters:
+        - $ref: '#/components/parameters/CartIdCookie'
+      requestBody:
+        $ref: '#/components/requestBodies/CartItemData'
+      responses:
+        '200':
+          $ref: '#/components/responses/CartItemOperationSuccessResponse'
+  /cart/cart-items/{cart_item_id}:
+    put:
+      tags:
+        - Cart
+      summary: Update cart item
+      description: Update quantity of cart item
+      parameters:
+        - $ref: '#/components/parameters/CartIdCookie'
+        - $ref: '#/components/parameters/CartItemIdPath'
+      requestBody:
+        $ref: '#/components/requestBodies/CartItemDataUpdate'
+      responses:
+        '200':
+          $ref: '#/components/responses/CartItemOperationSuccessResponse'
+    delete:
+      tags:
+        - Cart
+      summary: Remove item from cart
+      description: Remove item from cart
+      parameters:
+        - $ref: '#/components/parameters/CartIdCookie'
+        - $ref: '#/components/parameters/CartItemIdPath'
+      responses:
+        '200':
+          description: Success remove cart item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageOnly'
+  /cart/checkout:
+    post:
+      tags:
+        - Cart
+      summary: Save checkout items
+      description: Create order from cart item and save shipping address
+      parameters:
+        - $ref: '#/components/parameters/CartIdCookie'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  nullable: false
+                  minLength: 1
+                first_name:
+                  type: string
+                  nullable: false
+                  minLength: 1
+                last_name:
+                  type: string
+                  nullable: true
+                  minLength: 1
+                address:
+                  type: string
+                  nullable: false
+                  minLength: 1
+                city:
+                  type: string
+                  nullable: false
+                  minLength: 1
+                city_code:
+                  type: string
+                  nullable: false
+                  minLength: 1
+                state:
+                  type: string
+                  nullable: false
+                  minLength: 1
+                postcode:
+                  type: string
+                  nullable: false
+                  minLength: 1
+                phone:
+                  type: string
+                  nullable: true
+      responses:
+        '200':
+          description: Order items collections with shipping information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    format: email
+                    nullable: false
+                    minLength: 1
+                  shipping_address:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  order_items:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        weight:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        grind_size:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        quantity:
+                          type: integer
+                          format: int32
+                          nullable: false
+                          minimum: 1
+                        subtotal_price:
+                          type: integer
+                          format: int32
+                          nullable: false
+                          minimum: 1
+                  total_price:
+                    type: integer
+                    format: int32
+                    nullable: false
+                    minimum: 1
+  /cart/shipping:
+    post:
+      tags:
+        - Cart
+      summary: Select shipping method
+      description: Submit shipping method and cost
+      parameters:
+        - $ref: '#/components/parameters/CartIdCookie'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                shipping_method:
+                  type: string
+                  nullable: false
+                  minLength: 1
+                shipping_cost:
+                  type: integer
+                  format: int32
+                  nullable: false
+                  minimum: 1
+      responses:
+        '200':
+          description: Cart items collections with shipping information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    format: email
+                    nullable: false
+                    minLength: 1
+                  shipping_address:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  shipping_method:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  shipping_cost:
+                    type: string
+                    nullable: false
+                    minimum: 1
+                  cart_items:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        weight:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        grind_size:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        quantity:
+                          type: integer
+                          format: int32
+                          nullable: false
+                          minimum: 1
+                        subtotal_price:
+                          type: integer
+                          format: int32
+                          nullable: false
+                          minimum: 1
+                  total_price:
+                    type: integer
+                    format: int32
+                    nullable: false
+                    minimum: 1
+  /cart/shipping-info:
+    get:
+      tags:
+        - Cart
+      summary: Get shipping information
+      description: Get shipping information by cart id cookie
+      parameters:
+        - $ref: '#/components/parameters/CartIdCookie'
+      responses:
+        '200':
+          description: Shipping information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  shippingable_id:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  shippingable_type:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  email:
+                    type: string
+                    format: email
+                    nullable: false
+                    minLength: 1
+                  first_name:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  last_name:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  phone:
+                    type: string
+                    nullable: true
+                    minimum: 1
+                  address:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  city:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  city_code:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  state:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  postcode:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  shipping_method:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  shipping_cost:
+                    type: string
+                    nullable: false
+                    minLength: 1
+  /cart/shipping-method:
+    get:
+      tags:
+        - Cart
+      summary: Get shipping method
+      description: Get shipping method by cart id cookie
+      parameters:
+        - $ref: '#/components/parameters/CartIdCookie'
+      responses:
+        '200':
+          description: Shipping method
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - shipping_method
+                    - shipping_description
+                    - shipping_cost
+                    - shipping_estimated_days
+                  properties:
+                    shipping_method:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    shipping_description:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    shipping_cost:
+                      type: int32
+                      nullable: false
+                      minimum: 1
+                    shipping_estimated_days:
+                      type: string
+                      nullable: false
+                      minLength: 1
+  /orders:
+    get:
+      tags:
+        - Order
+      summary: Get order list
+      description: Get user order list ordered by status & date
+      parameters:
+        - name: access_token
+          in: cookie
+          required: true
+          description: User access token (jwt)
+          schema:
+            type: string
+            nullable: false
+            minLength: 1
+        - name: page
+          in: query
+          required: false
+          description: Get order list by pagination of 20 items
+          schema:
+            type: string
+            default: 1
+        - name: sort
+          in: query
+          required: false
+          description: |
+            Sort product by specific attribute
+            + : ascending
+            - : descending
+            Can include multiple attribute separated by comma
+          schema:
+            type: string
+            default: +status
+            enum:
+              - +status
+              - -status
+              - +date
+              - -date
+      responses:
+        '200':
+          description: Order items collections paginate by 20
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    order_id:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    order_status:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    order_date:
+                      type: string
+                      nullable: false
+                      minimum: 1
+                    first_order_item:
+                      type: object
+                      properties:
+                        product_name:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        product_quantity:
+                          type: int32
+                          nullable: false
+                          minimum: 1
+                        product_featured_image_url:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                    order_items_count:
+                      type: integer
+                      nullable: false
+                      minimum: 1
+                    other_order_items_quantity:
+                      type: integer
+                      nullable: false
+                      minimum: 1
+                    total_price:
+                      type: float
+                      nullable: false
+                      minimum: 1.00
+    post:
+      tags:
+        - Order
+      summary: Create order
+      description: Create order by submit payment method & billing address
+      parameters:
+        - $ref: '#/components/parameters/CartIdCookie'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payment_method:
+                  type: string
+                  enum: [bca,bni,bri,mandiri,permata]
+                same_as_shipping_address:
+                  type: boolean
+                  default: true
+                  nullable: false
+                billing_address:
+                  type: object
+                  nullable: true
+                  properties:
+                    first_name:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    last_name:
+                      type: string
+                      nullable: true
+                      minLength: 1
+                    address:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    city:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    state:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    postcode:
+                      type: string
+                      nullable: false
+                      minLength: 1
+                    phone:
+                      type: string
+                      nullable: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageOnly'
+  /orders/{order_id}:
+    get:
+      tags:
+        - Order
+      summary: Get order details
+      description: Get order details
+      parameters:
+        - name: access_token
+          in: cookie
+          required: true
+          description: User access token (jwt)
+          schema:
+            type: string
+            nullable: false
+            minLength: 1
+        - name: order_id
+          in: path
+          required: true
+          description: Get order details by id
+          schema:
+            type: string
+            nullable: false
+            minLength: 1
+      responses:
+        '200':
+          description: Order details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order_id:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  order_status:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  order_date:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  order_quantity:
+                    type: int32
+                    nullable: false
+                    minimum: 1
+                  order_items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        product_id:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        product_name:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        product_featured_image_url:
+                          type: string
+                          nullable: false
+                          minLength: 1
+                        product_quantity:
+                          type: int32
+                          nullable: false
+                          minimum: 1
+                        product_price:
+                          type: float
+                          nullable: false
+                          minimum: 1.00
+                        subtotal_price:
+                          type: float
+                          nullable: false
+                          minimum: 1.00
+                  shipping_info:
+                    type: object
+                    properties:
+                      courier:
+                        type: string
+                        nullable: false
+                        minLength: 1
+                      fullname:
+                        type: string
+                        nullable: false
+                        minLength: 1
+                      phone:
+                        type: string
+                        nullable: true
+                        minLength: 1
+                      address:
+                        type: string
+                        nullable: false
+                        minLength: 1
+                      shipping_cost:
+                        type: float
+                        nullable: false
+                        minimum: 1.00
+                  payment_method:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  total_price:
+                    type: float
+                    nullable: false
+                    minimum: 1.00
+                  total_weight:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  total_payment:
+                    type: float
+                    nullable: false
+                    minimum: 1.00
+  /orders/{order_id}/payment:
+    get:
+      tags:
+        - Payment
+      summary: Get payment details
+      description: Get payment details
+      parameters:
+        - name: access_token
+          in: cookie
+          required: true
+          description: User access token (jwt)
+          schema:
+            type: string
+            nullable: false
+            minLength: 1
+        - name: order_id
+          in: path
+          required: true
+          description: Get payment details by order id
+          schema:
+            type: string
+            nullable: false
+            minLength: 1
+      responses:
+        '200':
+          description: Payment details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bank:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  payment_method:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  va_number:
+                    type: string
+                    nullable: true
+                    minLength: 1
+                  bill_key:
+                    type: string
+                    nullable: true
+                    minLength: 1
+                  biller_code:
+                    type: string
+                    nullable: true
+                    minLength: 1
+                  total_payment:
+                    type: float
+                    nullable: false
+                    minimum: 1.00
+components:
+  parameters:
+    CartIdCookie:
+      name: KOPISLUR-CART-ID
+      in: cookie
+      required: true
+      description: Cart ID of visitor
+      schema:
+        type: string
+        nullable: false
+        minLength: 1
+    CartItemIdPath:
+      name: cart_item_id
+      in: path
+      required: true
+      description: Cart item id
+      schema:
+        type: integer
+        format: int32
+        nullable: false
+        minLength: 1
+  schemas:
+    BasicCollections:
+      type: array
+      items:
+        type: object
+        required:
+          - id
+          - name
+        properties:
+          id:
+            type: integer
+            format: int32
+            nullable: false
+            minimum: 1
+          name:
+            type: string
+            nullable: false
+            minLength: 1
+    MessageOnly:
+      type: object
+      properties:
+        message:
+          type: string
+          nullable: false
+          minLength: 1
+  requestBodies:
+    CartItemData:
+      description: Cart item data
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - product_variant_id
+              - grind_size
+              - quantity
+            properties:
+              product_variant_id:
+                type: integer
+                format: int32
+                nullable: false
+                minimum: 1
+              grind_size:
+                type: string
+                nullable: false
+                minLength: 1
+              quantity:
+                type: integer
+                format: int32
+                minimum: 1
+    CartItemDataUpdate:
+      description: Cart item data on update
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - quantity
+            properties:
+              quantity:
+                type: integer
+                format: int32
+                minimum: 1
+  responses:
+    CartItemOperationSuccessResponse:
+      description: Operation success
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - cart_item
+              - message
+            properties:
+              cart_item:
+                type: object
+                properties:
+                  variant_id:
+                    type: integer
+                    format: int32
+                    nullable: false
+                    minimum: 1
+                  name:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  weight:
+                    type: string
+                    nullable: false
+                    minLength: 1
+                  price:
+                    type: integer
+                    format: int32
+                    nullable: false
+                    minimum: 1
+                  quantity:
+                    type: integer
+                    format: int32
+                    nullable: false
+                    minimum: 1
+              message:
+                type: string
+                nullable: true
+    NotFoundResponse:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageOnly'
