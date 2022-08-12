@@ -1,4 +1,4 @@
-## KopiSlur Coffee Shop Web App
+# KopiSlur Coffee Shop Web App
 Online coffee shop to order high-quality coffee with many variants.
 
 Tech/concept that I use for development:
@@ -13,7 +13,7 @@ Tech/concept that I use for development:
 * Service & Repository design pattern (I know it's a bit overkill)
 * Feature test using PHPUnit
 
-# Live demo:
+## Live demo:
 
 https://kopislur.imamsetiawan.id/
 
@@ -22,19 +22,19 @@ https://kopislur.imamsetiawan.id/
 
 or you can create your own account
 
-# Backend (Laravel) Github Repo
+## Backend (Laravel) Github Repo
 https://github.com/onestica/coffee-shop-api-laravel
 
-# Frontend (Vue) Github Repo
+## Frontend (Vue) Github Repo
 https://github.com/onestica/coffee-shop-vue
 
-# API Documentation (Swagger/OpenAPI)
+## API Documentation (Swagger/OpenAPI)
 [KopiSlur Coffee Shop OpenAPI](https://github.com/onestica/coffee-shop-app-showcase/blob/master/kopislur-coffee-shop-openapi.yml)
 
-# Postman Workspace/Collections
+## Postman Workspace/Collections
 https://www.postman.com/simam29/workspace/coffee-shop-api
 
-# Screenshots
+## Screenshots
 
 ![img](https://github.com/onestica/coffee-shop-app-showcase/blob/master/screenshots/shop_page.png?raw=true)
 <p style="text-align: center;">Gambar 1. Halaman Home</p>
